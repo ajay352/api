@@ -43,6 +43,42 @@ def emp():
         #cursor.close() 
         #conn.close()  
         pass
+@app.route('/delete/<int:id>',methods=['DELETE'])
+def delete(id):
+    mydb=mysql.connector.connect(host='localhost',user='root',password='',database='ajay')
+    mycursor=mydb.cursor()
+    sql="DELETE FROM myregister WHERE id =%s"
+    
+    mycursor.execute(sql,(id,))
+    
+    respone = jsonify('Employee deleted successfully!')
+    respone.status_code = 200
+    return respone
+
+
+@app.route('/update/<int:id>',methods=['PUT'])
+def update(id):
+    my=int(id,)
+    ids=request.json['id']
+    name=request.json['name']
+    email=request.json['email']
+    phonenumber=request.json['phonenumber']
+    password=request.json['password']
+
+    mydb=mysql.connector.connect(host='localhost',user='root',password='',database='ajay')
+    mycursor=mydb.cursor()
+    sql="UPDATE myregister SET name =%s,email=%s,phonenumber=%s,password=%s WHERE id =%s"
+    val=(name,email,phonenumber,password,ids)
+    mycursor.execute(sql,val)
+    response=jsonify('updated')
+    #response=jsonify(my)
+
+    response.status_code=200
+    return response
+
+
+
+
 
 
 
