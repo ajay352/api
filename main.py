@@ -1,6 +1,6 @@
-
 from app import app
 from flask import jsonify
+import json
 from flask import request
 import mysql.connector
 @app.route('/create',methods=['POST','GET'])
@@ -27,11 +27,14 @@ def create_emp():
 def emp():
     try:
         mydb=mysql.connector.connect(host='localhost',user='root',password='',database='ajay')
-        mycursor=mydb.cursor()
-        SQL="SELECT id, name, email, phonenumber, password FROM myregister"
+        mycursor=mydb.cursor(dictionary=True)
+        SQL="SELECT id, age, technology, experience FROM myemploys"
         mycursor.execute(SQL)
         empRows = mycursor.fetchall()
-        respone = jsonify(empRows)
+        #res=json.dump(empRows)
+        respone=jsonify(empRows)
+        #respone = jsonify( res)
+        
         respone.status_code = 200
         return respone
     except Exception as e:
@@ -43,7 +46,7 @@ def emp():
 @app.route('/read/<int:id>')
 def reax_one(id):
         mydb=mysql.connector.connect(host='localhost',user='root',password='',database='ajay')
-        mycursor=mydb.cursor()
+        mycursor=mydb.cursor(dictionary=True)
         SQL="SELECT id, name, email, phonenumber, password FROM myregister WHERE id=%s"
         mycursor.execute(SQL,(id,))
         empRows = mycursor.fetchone()
@@ -87,4 +90,4 @@ def update(id):
         return jsonify('error')
 if __name__ =="__main__":
     
-    app.run(debug=True)
+    app.run(port=4445,debug=True)
