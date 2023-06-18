@@ -26,6 +26,7 @@ def create_emp():
 @app.route('/read')
 def emp():
     try:
+        # command checking
         mydb=mysql.connector.connect(host='localhost',user='root',password='',database='ajay')
         mycursor=mydb.cursor(dictionary=True)
         SQL="SELECT id, age, technology, experience FROM myemploys"
